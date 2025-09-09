@@ -15,7 +15,7 @@ origins = [
     "http://localhost:8000",
     "http://127.0.0.1:5500",
     "http://localhost:8000",
-    "https://your-production-frontend.com"  # Add your production frontend URL
+    "https://paulvengesa.github.io/chatbot"  # Add your production frontend URL
 ]
 
 app.add_middleware(
