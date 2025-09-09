@@ -50,7 +50,7 @@ body{
 .main{
     display:flex;
     gap:16px;
-    padding:18px
+    padding:100px
 }
 .chat{
     flex:1;
