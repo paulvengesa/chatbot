@@ -130,7 +130,7 @@ $form.addEventListener('submit', async (e) => {
   }
 });
 
-/* ------------------ File Upload ------------------ */
+/* ------------------ File Upload (with progress) ------------------ */
 $uploadBtn.addEventListener('click', async () => {
   const f = $file.files[0];
   if (!f) {
@@ -138,45 +138,39 @@ $uploadBtn.addEventListener('click', async () => {
     return;
   }
 
-  let uploaded = 0;
-  const reader = f.stream().getReader();
+  const formData = new FormData();
+  formData.append('file', f);
 
-  const stream = new ReadableStream({
-    async pull(controller) {
-      const { done, value } = await reader.read();
-      if (done) {
-        controller.close();
-        return;
-      }
-      uploaded += value.length;
-      const pct = Math.round((uploaded / f.size) * 100);
+  const xhr = new XMLHttpRequest();
+
+  // Progress bar
+  xhr.upload.addEventListener('progress', (e) => {
+    if (e.lengthComputable) {
+      const pct = Math.round((e.loaded / e.total) * 100);
       $progressBar.style.display = 'block';
       $progressInner.style.width = pct + '%';
-      controller.enqueue(value);
-    },
+    }
   });
 
-  try {
-    const res = await fetch(`${API_BASE}/upload`, {
-      method: 'POST',
-      body: stream, // ✅ stream directly
-      headers: { 'Content-Type': f.type || 'application/octet-stream' },
-    });
-
-    if (!res.ok) throw new Error('Upload failed: ' + res.status);
-
-    const data = await res.json();
-    $uploadNote.textContent = `Indexed ${data.chunks || '?'} chunks from ${f.name}`;
-    setStatus('Last upload OK');
-  } catch (err) {
-    $uploadNote.textContent = err.message;
-    setStatus('Upload error', false);
-  } finally {
-    setTimeout(() => {
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
       $progressBar.style.display = 'none';
       $progressInner.style.width = '0%';
-    }, 1200);
-  }
+
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const data = JSON.parse(xhr.responseText);
+        $uploadNote.textContent = `Indexed ${data.chunks || '?'} chunks from ${f.name}`;
+        setStatus('Last upload OK');
+      } else {
+        $uploadNote.textContent = 'Upload failed: ' + xhr.status;
+        setStatus('Upload error', false);
+      }
+    }
+  };
+
+  setStatus('Uploading…');
+  xhr.open('POST', `${API_BASE}/upload`);
+  xhr.send(formData);
 });
 
 /* ------------------ Clear Chat ------------------ */
