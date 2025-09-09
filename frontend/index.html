@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Doc Chatbot — Frontend</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container" role="application" aria-label="Document chatbot">
+    <div class="header">
+      <h1>Doc Chatbot</h1>
+      <div class="status" id="status">Disconnected</div>
+    </div>
+
+    <div class="main">
+      <div class="chat" role="region" aria-live="polite">
+        <div class="messages" id="messages"></div>
+
+        <form id="form" class="inputRow" autocomplete="off">
+          <textarea id="prompt" placeholder="Ask a question about your uploaded documents… (Shift+Enter for newline)" aria-label="Chat input"></textarea>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button type="submit" class="btn" id="send">Send</button>
+            <button type="button" class="btn" id="clear">Clear</button>
+          </div>
+        </form>
+      </div>
+
+      <aside>
+        <div class="panel">
+          <div class="small">Upload a file (pdf, docx, csv)</div>
+          <div class="fileWrap" style="margin-top:8px">
+            <input type="file" id="file" />
+            <button class="btn" id="uploadBtn">Upload</button>
+          </div>
+          <div class="progress" style="margin-top:8px;display:none" id="progressBar"><i></i></div>
+          <div class="small" id="uploadNote" style="margin-top:8px">No files uploaded yet.</div>
+        </div>
+
+        <div class="panel">
+          <div class="small">Tips</div>
+          <ul style="margin:8px 0 0 16px;padding:0">
+            <li class="small">Upload documents first, then ask questions.</li>
+            <li class="small">Be concise — short questions often work better.</li>
+            <li class="small">If the bot has no answer, try rephrasing.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <div class="footerNote">Local demo · adjust <code>API_BASE</code> in <b>chatbot.js</b> if needed</div>
+  </div>
+
+  <script src="chatbot.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+#requirements.txt
+fastapi
+uvicorn
+pydantic
+qdrant-client
+sentence-transformers
+pdfminer.six
+python-docx
+pandas
+openai
