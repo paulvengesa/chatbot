@@ -10,7 +10,7 @@ from .document_parser import parse_file, chunk_text
 app = FastAPI()
 COLLECTION = "docs"
 
-# CORS setup
+# CORS setup — allow localhost + GitHub Pages frontend
 origins = [
     "http://localhost:8000",
     "http://127.0.0.1:5500",
@@ -43,18 +43,10 @@ def health():
 
 @app.post("/upload")
 async def upload(file: UploadFile = File(...)):
-    """Stream upload into memory-efficient buffer"""
-    CHUNK_SIZE = 1024 * 1024  # 1MB
-    buffer = io.BytesIO()
+    """Accept file as multipart/form-data and index its contents"""
+    content = await file.read()  # ✅ Safe because FormData handles full file in memory
+    texts, meta = parse_file(content, file.filename)
 
-    while True:
-        chunk = await file.read(CHUNK_SIZE)
-        if not chunk:
-            break
-        buffer.write(chunk)
-
-    buffer.seek(0)
-    texts, meta = parse_file(buffer.read(), file.filename)
     chunks = chunk_text(texts)
     vectors = embed_texts(chunks)
     upsert_points(COLLECTION, chunks, vectors, meta)
@@ -74,6 +66,6 @@ async def chat(req: ChatIn):
     hits = semantic_search(COLLECTION, qv, top_k=req.top_k)
     context = "\n\n".join(h["text"] for h in hits)
 
-    # Placeholder answer (replace with LLM call if desired)
+    # Placeholder answer — replace with LLM call for natural replies
     answer = f"Based on the docs, here’s what I found:\n{context}"
     return {"answer": answer, "sources": hits}
