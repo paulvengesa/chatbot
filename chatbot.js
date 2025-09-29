@@ -1,7 +1,7 @@
 /* --------- CONFIG --------- */
 // Point API_BASE to your backend depending on environment
 const API_BASE =
-  window.location.hostname === 'paulvengesa.github.io'
+  window.location.hostname === 'paulvengesa.github.io/chatbot'
     ? 'https://paulvengesa.github.io/chatbot'   // production backend
     : 'http://localhost:5000';                  // local backend
 /* -------------------------- */
