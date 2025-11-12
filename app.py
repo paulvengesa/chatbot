@@ -1,9 +1,9 @@
 from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
 
-from .embeddings import embed_texts, embed_query
-from .qdrant_utils import ensure_collection, upsert_points, semantic_search
-from .document_parser import parse_file, chunk_text
+from embeddings import embed_texts, embed_query
+from qdrant_utils import ensure_collection, upsert_points, semantic_search
+from document_parser import parse_file, chunk_text
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -14,9 +14,9 @@ COLLECTION = "docs"
 origins = [
     "http://localhost:8000",
     "http://127.0.0.1:5500",
-    "http://localhost:8000",
-    "https://your-production-frontend.com"  # Add your production frontend URL
+    "https://paulvengesa.github.io"
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
