@@ -4,13 +4,12 @@ from typing import List, Dict
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
 
-# Configure Qdrant connection
-QDRANT_URL = os.getenv("QDRANT_URL", "http://localhost:6333")  # local default
-QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")  # only needed for cloud
+QDRANT_URL = os.getenv("https://02792a42-1798-4c80-b61e-9297261bf1e6.us-east4-0.gcp.cloud.qdrant.io")
+QDRANT_API_KEY = os.getenv("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.extf6favi74G9A2x9caxUm6jZjL0yRha6JFWvEBy9kM")
 
 client = QdrantClient(
     url=QDRANT_URL,
-    api_key=QDRANT_API_KEY
+    api_key=QDRANT_API_KEY,
 )
 
 
