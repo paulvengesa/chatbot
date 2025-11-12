@@ -11,6 +11,15 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 COLLECTION = "docs"
 
+# Initialize Qdrant client securely (using Render environment variables)
+QDRANT_URL = os.getenv("QDRANT_URL")
+QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+
+qdrant_client = QdrantClient(
+    url=QDRANT_URL,
+    api_key=QDRANT_API_KEY,
+)
+
 # CORS: allow any origin if needed, or restrict to your production frontend
 origins = [
     "http://localhost:8000",
