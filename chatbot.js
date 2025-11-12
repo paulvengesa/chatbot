@@ -1,5 +1,8 @@
 /* --------- CONFIG --------- */
-const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://your-production-backend.com';
+const API_BASE = window.location.hostname === 'localhost'
+  ? 'http://localhost:8000'
+  : 'https://chatbot-a6k8.onrender.com';
+
 /* -------------------------- */
 
 const $messages = document.getElementById('messages');
