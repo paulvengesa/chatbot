@@ -27,10 +27,12 @@ origins = [
     "https://paulvengesa.github.io"
 ]
 
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # or restrict to ["https://paulvengesa.github.io"]
+    allow_origins=[
+        "https://paulvengesa.github.io",
+        "http://localhost:8000"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
