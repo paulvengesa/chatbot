@@ -7,6 +7,7 @@ from document_parser import parse_file, chunk_text
 
 from fastapi.middleware.cors import CORSMiddleware
 
+
 app = FastAPI()
 COLLECTION = "docs"
 
