@@ -30,11 +30,12 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # or restrict to ["https://paulvengesa.github.io"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 class CMSIn(BaseModel):
     items: list[str]
